@@ -1,5 +1,5 @@
 import './style.css'
-import { getWeatherForCity } from './weather.ts'
+import { formatTime, getWeatherForCity } from './weather.ts'
 
 const app = document.querySelector<HTMLDivElement>('#app')
 
@@ -102,7 +102,15 @@ function renderWeather(weather: Awaited<ReturnType<typeof getWeatherForCity>>) {
           </article>
           <article class="metric-card">
             <h3>Vento</h3>
-            <p>${weather.windSpeed.toFixed(0)} km/h · ${weather.windDirection.toFixed(0)}°</p>
+            <p>${weather.windSpeed.toFixed(0)} km/h · ${weather.windDirectionLabel} (${weather.windDirection.toFixed(0)}°)</p>
+          </article>
+          <article class="metric-card">
+            <h3>Nascer do sol</h3>
+            <p>${formatTime(weather.sunrise)}</p>
+          </article>
+          <article class="metric-card">
+            <h3>Pôr do sol</h3>
+            <p>${formatTime(weather.sunset)}</p>
           </article>
         </div>
       </section>

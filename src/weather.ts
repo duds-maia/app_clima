@@ -9,6 +9,7 @@ export interface WeatherSummary {
   weatherLabel: string
   windSpeed: number
   windDirection: number
+  windDirectionLabel: string
   sunrise: string
   sunset: string
   period: 'day' | 'night'
@@ -128,11 +129,18 @@ export async function getWeatherForCity(city: string): Promise<WeatherSummary> {
     weatherLabel: weatherLabels[weatherCode] ?? 'Condição especial',
     windSpeed: current.wind_speed_10m ?? 0,
     windDirection: current.wind_direction_10m ?? 0,
+    windDirectionLabel: getWindDirectionLabel(current.wind_direction_10m ?? 0),
     sunrise: sunrise ?? '',
     sunset: sunset ?? '',
     period: getDayPeriod(currentTime, sunrise, sunset),
     dateLabel: formatDateLabel(currentTime),
   }
+}
+
+function getWindDirectionLabel(degree: number): string {
+  const directions = ['N', 'NE', 'L', 'SE', 'S', 'SO', 'O', 'NO']
+  const index = Math.round(degree / 45) % directions.length
+  return directions[index]
 }
 
 function getDayPeriod(currentTime: string, sunrise?: string, sunset?: string): 'day' | 'night' {
@@ -153,5 +161,17 @@ function formatDateLabel(value: string): string {
     weekday: 'long',
     day: '2-digit',
     month: 'long',
+  }).format(date)
+}
+
+export function formatTime(value: string): string {
+  if (!value) {
+    return 'Não informado'
+  }
+
+  const date = new Date(value)
+  return new Intl.DateTimeFormat('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit',
   }).format(date)
 }
