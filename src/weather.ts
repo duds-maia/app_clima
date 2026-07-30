@@ -1,4 +1,4 @@
-export interface WeatherSummary {
+export type WeatherSummary = {
   city: string
   country: string
   temperature: number
@@ -16,7 +16,7 @@ export interface WeatherSummary {
   dateLabel: string
 }
 
-interface GeoLocationResult {
+type GeoLocationResult = {
   name: string
   country: string
   latitude: number
@@ -24,11 +24,11 @@ interface GeoLocationResult {
   timezone: string
 }
 
-interface GeoResponse {
+type GeoResponse = {
   results?: GeoLocationResult[]
 }
 
-interface ForecastResponse {
+type ForecastResponse = {
   current?: {
     time?: string
     temperature_2m?: number
